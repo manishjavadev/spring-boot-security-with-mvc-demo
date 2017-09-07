@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.manish.javadev.model.RoleEntity;
 import com.manish.javadev.model.UserEntity;
@@ -27,14 +28,16 @@ public class SpringBootApplicationDemo implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		saveData();
+		//saveData();
 	}
 
 	private void saveData() {
+		BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
+
 		RoleEntity roleEntity1 = new RoleEntity("ROLE_ADMIN");
 		RoleEntity roleEntity2 = new RoleEntity("ROLE_USER");
-		UserEntity userEntity1 = new UserEntity("msmanish95", "Passw0rd", true);
-		UserEntity userEntity2 = new UserEntity("msmanish96", "Passw0rd", true);
+		UserEntity userEntity1 = new UserEntity("msmanish95", bcpe.encode("Passw0rd"), true);
+		UserEntity userEntity2 = new UserEntity("msmanish96", bcpe.encode("Passw0rd"), true);
 		userEntity1.getRoles().add(roleEntity1);
 		userEntity1.getRoles().add(roleEntity2);
 		roleEntity1.setUserEntity(userEntity1);
